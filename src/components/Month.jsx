@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Year from "./Year";
 
 const Month = (props) => {
   let actualDate = new Date();

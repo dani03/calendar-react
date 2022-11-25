@@ -14,12 +14,7 @@ const Year = (props) => {
 
   }
   useEffect(() => {
-    console.log(annee, ' <-annee');
     props.onSendYear(annee);
-
-    // return () => {
-
-    // };
   }, [annee, props]);
 
 

@@ -25,22 +25,21 @@ const BoxCalendar = ({ theMonth, year }) => {
   useEffect(() => {
     Object.entries(days).forEach(
       ([key, value]) => {
-        console.log("cle", key, "valeur", value)
+  
       }
     );
 
   }, []);
 
   const getDaysInMonth = (mois, year) => {
-    console.log("mois actual: ", actualMonth)
+
     var date = new Date(year, mois, 1);
-    console.log(date.getMonth());
 
     while (date.getMonth() == mois) {
 
       Object.entries(days).forEach(
         ([key, value]) => {
-          console.log("cle", key, "valeur", value);
+     
           if (key === date.toLocaleString("fr-FR", { "weekday": "long" })) {
             days[key].push({ 'numero': new Date(date).getDate(), "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
           }
