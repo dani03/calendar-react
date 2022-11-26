@@ -15,104 +15,77 @@ function App() {
   const [jours, setJours] = useState([]);
   const [theYearNumber, setTheYearNumber] = useState([]);
   const [mois, setMois] = useState([]);
+  const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
   //comportements
 
-  // let actualDate = new Date();
-  // let actualMonth = actualDate.getMonth();
-  // var days = [];
-  var days = {
-    'lundi': [],
-    'mardi': [],
-    'mercredi': [],
-    'jeudi': [],
-    'vendredi': [],
-    'samedi': [],
-    'dimanche': [],
-  };
 
 
 
 
-  const getDaysInMonth = (mois, year) => {
+  // const getDaysInMonth = (mois, year) => {
 
-    var date = new Date(year, mois, 1);
-    while (date.getMonth() === mois) {
-      Object.entries(days).forEach(
-        ([key, value]) => {
-          console.log("cle", key, "valeur", value);
-          if (key === date.toLocaleString("fr-FR", { "weekday": "long" })) {
-            days[key].push({ 'numero': new Date(date).getDate(), "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
-          } else {
-            days[key].push({ 'numero':" vide ", "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
+  //   const date = new Date(year, mois, 1);
+  //   while (date.getMonth() === mois) {
+  //     Object.entries(days).forEach(
+  //       ([key, value]) => {
+  //         console.log("cle", key, "valeur", value);
+  //         if (key === date.toLocaleString("fr-FR", { "weekday": "long" })) {
+  //           days[key].push({ 'numero': new Date(date).getDate(), "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
+  //         } else {
+  //           days[key].push({ 'numero': "  ", "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
 
-          }
-        }
-      );
-      // days.push({ 'numero': new Date(date).getDate(), "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
-      date.setDate(date.getDate() + 1);
-    }
+  //         }
+  //       }
+  //     );
+  //     // days.push({ 'numero': new Date(date).getDate(), "day": date.toLocaleString("fr-FR", { "weekday": "long" }), "month": date.getMonth() });
+  //     date.setDate(date.getDate() + 1);
+  //   }
 
-    const daysArr = transformToArray(days);
-    setJours(daysArr);
+  //   const daysArr = transformToArray(days);
+  //   setJours(daysArr);
 
-  }
-  const transformToArray = (obj) => {
-    return Object.entries(obj)
-  }
+  // }
+  // const transformToArray = (obj) => {
+  //   return Object.entries(obj)
+  // }
   useEffect(() => {
-    console.log('le mois--', mois)
-    getDaysInMonth(mois, theYearNumber)
 
-    // return () => {
+    // getDaysInMonth(mois, theYearNumber)
+    const date_firstDay = new Date(theYearNumber, mois, 1).toLocaleString("fr-FR", { "weekday": "long" });
+    const date_last = new Date(theYearNumber, mois + 1, 0).toLocaleString("fr-FR", { "weekday": "long" });
+    const numberOfDays = new Date(theYearNumber, mois + 1, 0).getDate();
+   
 
-    // };
+    let tabDays = [];
+    const tabFirst = new Array(days.indexOf(date_firstDay)).fill('');
+
+    const tabLast = new Array(7 - (days.indexOf(date_last) + 1)).fill('');
+
+    for (let i = 1; i <= numberOfDays; i++) {
+      tabDays.push(i);
+    }
+    tabDays = [...tabFirst, ...tabDays, ...tabLast];
+    console.log(tabDays.length, tabDays)
+    setJours(tabDays)
+
   }, [mois, theYearNumber]);
 
-  const onYearHandler = (yearSend) => {
-    // console.log('on year method', yearSend);
-
-    setTheYearNumber(yearSend)
-  }
-
-  const onMonthHandler = (newMois) => {
-    setMois(newMois)
-  }
   return (
     <div className="App">
-      <Month onSendMonth={onMonthHandler} />
-      <Year onSendYear={onYearHandler} />
+      <Month onSendMonth={(newMois) => setMois(newMois)} />
+      <Year onSendYear={(yearSend) => setTheYearNumber(yearSend)} />
       {/* <td><Numero num={element.numero} /></td> */}
 
       <ul className="weekdays">
-        {jours.map((el, index) => {
-          // return <Numero key={index} num={el.numero} />
-          console.log(el)
-          return <li>{el[0]}</li>
-        }
-        )}
-        {/* <li>Lundi</li>
-        <li>Mardi</li>
-        <li>Mercredi</li>
-        <li>Jeudi</li>
-        <li>Vendredi</li>
-        <li>Samedi</li>
-        <li>Dimanche</li> */}
+        {days.map((el, index) => <li key={index}>{el}</li>)}
+
       </ul>
 
       <ul className="days">
 
-        {jours.map((el, index) => {
-
-          return <Box key={index} actualDay={el[0]} numbers={el[1]} />
-
-
-        }
-        )}
+        {jours.map((el, index) => <Numero key={index} num={el} />)}
 
       </ul>
-
-
-
 
     </div>
   );

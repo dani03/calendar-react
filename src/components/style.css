@@ -79,3 +79,13 @@ body {font-family: Verdana, sans-serif;}
 @media screen and (max-width: 290px) {
   .weekdays li, .days li {width: 12.2%;}
 }
+
+ .box {
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .box>* {
+        flex: 1 1 80px;
+    }
